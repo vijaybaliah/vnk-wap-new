@@ -1,0 +1,40 @@
+{
+  "name": "vnk-wap-new",
+  "version": "1.0.0",
+  "description": "vnk wap",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "webpack -w & nodemon EVN_FILE=.env server.js",
+    "test": "npm run jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vijaybaliah/vnk-wap-new.git"
+  },
+  "author": "vijay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vijaybaliah/vnk-wap-new/issues"
+  },
+  "homepage": "https://github.com/vijaybaliah/vnk-wap-new#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "nodemon": "^2.0.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
+    "serialize-javascript": "^2.1.2"
+  }
+}
