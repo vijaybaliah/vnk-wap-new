@@ -11,7 +11,13 @@ var browserConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js|jsx)$/, use: 'babel-loader' },
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        resolve: {
+          extensions: [".js", ".jsx"]
+        }
+      },
     ]
   },
   plugins: [
@@ -32,7 +38,13 @@ var serverConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js|jsx)$/, use: 'babel-loader' }
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        resolve: {
+          extensions: [".js", ".jsx"]
+        }
+      }
     ]
   },
   plugins: [
