@@ -4,7 +4,7 @@
   "description": "vnk wap",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack -w & nodemon EVN_FILE=.env server.js",
+    "start": "EVN_FILE=.env webpack -w & nodemon server.js",
     "test": "npm run jest"
   },
   "repository": {
@@ -22,11 +22,18 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
-    "babel-jest": "^24.9.0",
+    "babel-jest": "^26.0.1",
     "babel-loader": "^8.0.6",
+    "css-loader": "^3.5.3",
+    "node-sass": "^4.14.1",
     "nodemon": "^2.0.2",
-    "webpack": "^4.41.5",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
     "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-manifest-plugin": "^2.2.0",
+    "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
@@ -35,6 +42,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
-    "serialize-javascript": "^2.1.2"
+    "serialize-javascript": "^2.1.2",
+    "superagent": "^5.2.2"
   }
 }
