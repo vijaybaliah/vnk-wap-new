@@ -43,7 +43,7 @@ exports.loadCSS = ({ include, exclude } = {}) => ({
 
 exports.extractSCSS = ({ include, exclude, use = [] }) => {
   const plugin = new ExtractTextPlugin({
-    filename: "[name].css",
+    filename: "[name]-[hash].css",
   });
   return {
     module: {
@@ -52,8 +52,9 @@ exports.extractSCSS = ({ include, exclude, use = [] }) => {
           test: /\.scss$/,
           include,
           exclude,
-          use: ExtractTextPlugin.extract({
+          loader: ExtractTextPlugin.extract({
             use,
+            fallback: ['style-loader'],
           }),
         }
       ],
@@ -66,9 +67,6 @@ exports.extractSCSS = ({ include, exclude, use = [] }) => {
 
 exports.extractCSS = ({ include, exclude, use = [] }) => {
   // Output extracted CSS to a file
-  const plugin = new MiniCssExtractPlugin({
-    filename: "[name].css",
-  });
 
   return {
     module: {
@@ -84,6 +82,27 @@ exports.extractCSS = ({ include, exclude, use = [] }) => {
         },
       ],
     },
-    plugins: [plugin],
   };
 };
+
+exports.autoprefix = () => ({
+  loader: "postcss-loader",
+  options: {
+    plugins: () => [require("autoprefixer")()],
+  },
+});
+
+exports.loadSCSS = () => ({
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  }
+});

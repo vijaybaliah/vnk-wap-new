@@ -3,7 +3,13 @@ var webpack = require('webpack')
 const merge = require("webpack-merge");
 var nodeExternals = require('webpack-node-externals')
 var ManifestPlugin = require('webpack-manifest-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const parts = require("./webpack.parts");
+
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build')
+}
 
 console.log('PORT: ', process.env.PORT);
 
@@ -22,14 +28,17 @@ var commonConfig = merge([{
         resolve: {
           extensions: [".js", ".jsx"]
         }
-      },
+      }
     ]
   },
   plugins: [
     new webpack.DefinePlugin({
       __isBrowser__: "true"
     }),
-    new ManifestPlugin()
+    new ManifestPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name]-[hash].css",
+    }),
   ]
 }
 ])
@@ -40,22 +49,36 @@ const browserDevConfig = merge([
     host: process.env.HOST,
     port: process.env.PORT || 3001,
   }),
-  parts.loadCSS(),
-  // parts.extractCSS({
-  //   use: ['css-loader', 'sass-loader'],
-  // }),
-  parts.extractSCSS({
-    use: ['css-loader', 'sass-loader']
+  parts.extractCSS({
+    exclude: /\.module\.css$/,
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1
+        }
+      },
+      'postcss-loader'
+    ]
   }),
+  parts.extractCSS({
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1,
+          modules: true
+        }
+      },
+      'postcss-loader'
+    ],
+    include: /\.module\.css$/
+  }),
+  parts.loadSCSS()
 ])
 
 const productionConfig = merge([
-  // parts.extractCSS({
-  //   use: ['css-loader', 'sass-loader'],
-  // }),
-  parts.extractSCSS({
-    use: ['css-loader', 'sass-loader']
-  }),
+  parts.loadSCSS()
 ]);
 
 const serverCommonConfig = merge([
@@ -82,17 +105,39 @@ const serverCommonConfig = merge([
     plugins: [
       new webpack.DefinePlugin({
         __isBrowser__: "false"
-      })
+      }),
+      new MiniCssExtractPlugin({
+        filename: "[name]-[hash].css",
+      }),
     ]
   },
-  // parts.extractCSS({
-  //   use: ['css-loader', 'sass-loader'],
-  // }),
-  parts.extractSCSS({
-    use: ['css-loader', 'sass-loader']
+  parts.extractCSS({
+    exclude: /\.module\.css$/,
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1
+        }
+      },
+      'postcss-loader'
+    ]
   }),
+  parts.extractCSS({
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 1,
+          modules: true
+        }
+      },
+      'postcss-loader'
+    ],
+    include: /\.module\.css$/
+  }),
+  parts.loadSCSS(),
 ])
-  // parts.loadSCSS(),
 
 
 module.exports = mode => {
