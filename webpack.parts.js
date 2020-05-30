@@ -24,6 +24,7 @@ exports.loadCSS = ({ include, exclude } = {}) => ({
             loader: "css-loader",
             options: {
               modules: true,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
             },
           },
           {
@@ -43,16 +44,16 @@ exports.loadCSS = ({ include, exclude } = {}) => ({
 
 exports.extractSCSS = ({ include, exclude, use = [] }) => {
   const plugin = new ExtractTextPlugin({
-    filename: "[name]-[hash].css",
+    filename: "[name].css",
   });
   return {
     module: {
       rules: [
         {
-          test: /\.scss$/,
+          test: /\.css$/,
           include,
           exclude,
-          loader: ExtractTextPlugin.extract({
+          use: ExtractTextPlugin.extract({
             use,
             fallback: ['style-loader'],
           }),

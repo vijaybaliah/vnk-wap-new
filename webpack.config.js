@@ -35,10 +35,10 @@ var commonConfig = merge([{
     new webpack.DefinePlugin({
       __isBrowser__: "true"
     }),
-    new ManifestPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name]-[hash].css",
     }),
+    new ManifestPlugin(),
   ]
 }
 ])
@@ -58,7 +58,7 @@ const browserDevConfig = merge([
           importLoaders: 1
         }
       },
-      'postcss-loader'
+      parts.autoprefix()
     ]
   }),
   parts.extractCSS({
@@ -67,10 +67,12 @@ const browserDevConfig = merge([
         loader: 'css-loader',
         options: {
           importLoaders: 1,
-          modules: true
+          modules: {
+            localIdentName: '[local]--[hash:base64:5]',
+          },
         }
       },
-      'postcss-loader'
+      parts.autoprefix()
     ],
     include: /\.module\.css$/
   }),
@@ -120,7 +122,7 @@ const serverCommonConfig = merge([
           importLoaders: 1
         }
       },
-      'postcss-loader'
+      parts.autoprefix(),
     ]
   }),
   parts.extractCSS({
@@ -129,10 +131,12 @@ const serverCommonConfig = merge([
         loader: 'css-loader',
         options: {
           importLoaders: 1,
-          modules: true
+          modules: {
+            localIdentName: '[local]--[hash:base64:5]',
+          },
         }
       },
-      'postcss-loader'
+      parts.autoprefix(),
     ],
     include: /\.module\.css$/
   }),
